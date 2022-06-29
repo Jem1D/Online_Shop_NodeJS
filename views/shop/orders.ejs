@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=PageTitle%></title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/product.css" />
+  </head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+      <% if( orders.length <= 0) { %>
+        <h1>Nothing here.</h1>
+      <% } else { %>
+      <ul>
+        <% for( let order of orders ) { %>
+          <li>
+            <h2>Order ID: #<%=order._id%> - <a href="/orders/<%=order._id%>" >Invoice</a></h2>
+            <ul>
+            <% for( let p of order.products ) { %>
+              <li><%=p.product.title%> (<%=p.quantity%>)</li>
+              <% } %>
+            </ul>
+          </li>
+          <% } %>
+      </ul>
+      <% } %>
+    </main>
+    <script src="/js/main.js"></script>
+</body>
+</html>

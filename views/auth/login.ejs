@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=PageTitle%></title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/product.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+  </head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+      <% if(errMsg) { %>
+      <div class="user-message user-message--error"><%=errMsg%></div>
+      <% } %>
+      <form class="product-form" action="/login" method="POST">
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input
+          class="<%= (errMsg==='No user found!') ? 'invalid' : '' %>"
+            type="email"
+            name="email"
+            id="title"
+            value="<%=oldInput.email%>"
+          />
+        </div>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input
+          class="<%= (errMsg === 'Invalid Password') ? 'invalid' : '' %>"
+            type="password"
+            name="password"
+            id="password"
+            value="<%=oldInput.password%>"
+          />
+        </div>
+        <button class="btn" type="submit">Login</button>
+        <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+      </form>
+    </main>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=PageTitle%></title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/product.css" />
+  </head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+      <% if(prods.length > 0) { %>
+      <div class="grid">
+        <% for( let products of prods) { %>
+        <article class="card product-item">
+          <header class="card__header">
+            <h1 class="product__title"><%=products.title%></h1>
+            <div class="card__image">
+              <img
+                src="/<%=products.imageUrl%>"
+                alt="<%=products.title%>"
+              />
+            </div>
+            <div class="card__content">
+              <h2 class="product__price">$<%=products.price%></h2>
+              <p class="product__description">
+                <%=products.description%>
+              </p>
+              <div class="card__actions">
+                <a class="btn" href="/admin/edit-product/<%=products._id%>?edit=true">Edit</a>
+                
+                  <input type="hidden" name="productId" value="<%=products._id%>">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+                  <button class="btn" type="button" onclick="deleteProduct(this)">Delete</button>
+                
+              </div>
+            </div>
+          </header>
+        </article>
+        <% } %>
+      </div>
+      <% } else { %>
+      <h1>Product list is empty.</h1>
+      <% } %>
+    </main>
+    <script src="/js/main.js"></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

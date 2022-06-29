@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=PageTitle%></title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/product.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+  </head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+      <% if(errMsg) { %>
+      <div class="user-message user-message--error"><%=errMsg%></div>
+      <% } %>
+      <form
+        class="product-form"
+        action="/admin/<% if(editing) { %>edit-product<% } else { %>add-product<% } %>"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input
+            class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>"
+            type="text"
+            name="title"
+            id="title"
+            value="<% if(editing|| hasError) { %><%=product.title%><% } %>"
+          />
+          <!-- this is for the URL of image on the web itself -->
+          <!-- <label for="imageUrl">Image URL</label>
+          <input
+          class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>"
+            type="text"
+            name="imageUrl"
+            id="imageUrl"
+            value="<% if(editing|| hasError) { %><%=product.imageUrl%><% } %>"
+          /> -->
+          <label for="image">Image</label>
+          <input type="file" name="image" id="image" />
+          <label for="price">Price</label>
+          <input
+            class="<%= validationErrors.find(e => e.param === 'price') ? 'invalid' : '' %>"
+            type="number"
+            name="price"
+            id="price"
+            step="0.01"
+            min="0"
+            value="<% if(editing || hasError) { %><%=product.price%><% } %>"
+          />
+          <label for="description">Description</label>
+          <textarea
+            class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
+            type="text"
+            name="description"
+            id="description"
+            rows="4"
+          >
+<% if(editing || hasError) { %><%=product.description%><% } %></textarea
+          >
+          <% if(editing) { %>
+          <input type="hidden" name="productId" value="<%=product._id%>" />
+          <!-- <textarea type="text" ><%=product._id%></textarea> -->
+          <% } %>
+        </div>
+        <input type="hidden" name="_csrf" value="<%= csrfToken%>" />
+        <button class="btn" type="submit">
+          <% if(editing) { %>Update Product<% } else { %>Add product<% } %>
+        </button>
+      </form>
+    </main>
+    <script src="/js/main.js"></script>
+  </body>
+</html>
